@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from SkyScannerTest import *
 import boto.ses
 import os
