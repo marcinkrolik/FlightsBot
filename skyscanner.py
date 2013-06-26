@@ -57,7 +57,7 @@ class Results(object):
     def __init__(self, driver):
         # during init just wait the best price to be visible 
         self.driver = driver
-        WebDriverWait(self.driver, 10).until(lambda driver: driver.find_element_by_css_selector(self.SPAN).is_enabled())
+        WebDriverWait(self.driver, 60).until(lambda driver: driver.find_element_by_css_selector(self.SPAN).is_enabled())
     
     def get_results(self):
         how, what = self.ROW
