@@ -19,18 +19,12 @@ def main():
         test.tearDown()
     body += "\n\nPrepared by fully automated Kromar"
     sendMail(body)    
-    #test.setUp()
-    #r2 = test.test(d[1])
-    #test.tearDown()
     
-    #print r1
-    #print r2
 def sendMail(body):
     
     REGION = 'us-east-1'
     FROM = 'kromar.box@gmail.com'
     SUBJECT = 'Your subject'
-    BODY = 'Body here'
     TO = ['marcin.krolik@gmail.com', 'zmudakat@gmail.com']
     
     conn = boto.ses.connect_to_region(REGION, aws_access_key_id = os.environ['AWSKEY'], aws_secret_access_key = os.environ['AWSPASS'])
