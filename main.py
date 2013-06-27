@@ -5,21 +5,22 @@ import os
 
 def main():
     
+    datacsv = 'data.csv'
     body = ''
-    
-    data = (("GDN", "MNL", "10.07.2013", "10.08.2013"),
-            ("GDN", "CGK", "10.07.2013", "10.08.2013"),
-            ("WAW", "CGK", "10.08.2013", "10.09.2013"),
-            ("WAW", "CGK", "10.09.2013", "10.10.2013"))
+    data = readCsv(datacsv)
     test = SkyScannerTest()
     
     for d in data:
+        print "======>" + ";".join(d)
         test.setUp()
         body += "%s - %s \n%s <-> %s : %s \n" % (d[2], d[3], d[0], d[1], ";".join(test.test(d)))
         test.tearDown()
     body += "\n\nPrepared by fully automated Kromar"
-    sendMail(body)    
-    
+    sendMail(body)
+    #fileout = open('log.txt', 'w')
+    #fileout.write(body)
+    #fileout.close()    
+#'''    
 def sendMail(body):
     
     REGION = 'us-east-1'
@@ -29,6 +30,6 @@ def sendMail(body):
     
     conn = boto.ses.connect_to_region(REGION, aws_access_key_id = os.environ['AWSKEY'], aws_secret_access_key = os.environ['AWSPASS'])
     conn.send_email(FROM, SUBJECT, body, TO)
-
+#'''
 if __name__ == '__main__':
     main()

@@ -1,8 +1,10 @@
 from selenium import webdriver
-#from selenium.webdriver.common.by import By
+from selenium.webdriver.common.by import By
 #from selenium.webdriver.support.ui import Select
-#from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from utils import *
 
 class Search(object):
@@ -18,7 +20,8 @@ class Search(object):
     def __init__(self, driver):
         # during init just wait for search button to be enabled 
         self.driver = driver
-        WebDriverWait(self.driver, 10).until(lambda driver: find(driver, self.SEARCH_BUTTON).is_enabled())
+        #WebDriverWait(self.driver, 10).until(lambda driver: find(driver, self.SEARCH_BUTTON).is_enabled())
+        WebDriverWait(self.driver, 60).until(EC.presence_of_element_located((By.ID, self.SEARCH_BUTTON[1])))
     
     def set_dep(self, dep):
         # clear departure and send string
@@ -57,7 +60,11 @@ class Results(object):
     def __init__(self, driver):
         # during init just wait the best price to be visible 
         self.driver = driver
-        WebDriverWait(self.driver, 60).until(lambda driver: driver.find_element_by_css_selector(self.SPAN).is_enabled())
+        try:
+            #WebDriverWait(self.driver, 90).until(lambda driver: driver.find_element_by_css_selector(self.SPAN).is_enabled())
+            WebDriverWait(self.driver, 60).until(EC.presence_of_element_located((By.CSS_SELECTOR, self.SPAN)))
+        except TimeoutException:
+            self.driver.quit()
     
     def get_results(self):
         how, what = self.ROW
