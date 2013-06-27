@@ -5,17 +5,20 @@ import os
 
 def main():
     
+    LOG_FILE_NAME = 'skyscanner.log'
     datacsv = 'data.csv'
     body = ''
     data = readCsv(datacsv)
     test = SkyScannerTest()
+    logfile = open(LOG_FILE_NAME, 'w')
     
     for d in data:
-        print "======>" + ";".join(d)
+        logfile.write("======>" + ";".join(d))
         test.setUp()
         body += "%s - %s \n%s <-> %s : %s \n" % (d[2], d[3], d[0], d[1], ";".join(test.test(d)))
         test.tearDown()
     body += "\n\nPrepared by fully automated Kromar"
+    logfile.close()
     sendMail(body)
     #fileout = open('log.txt', 'w')
     #fileout.write(body)
